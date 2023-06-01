@@ -32,23 +32,18 @@ const on = (type, el, listener, all = false) => {
 
   
   /**
-   * Back to top button
+   * Scroll to top button
    */
   let backtotop = select('.back-to-top')
   if (backtotop) {
-    const toggleBacktotop = () => {
-      if (window.scrollY > 100) {
-        backtotop.classList.add('active')
-      } else {
-        backtotop.classList.remove('active')
-      }
+    const scrollToTop = () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      })
     }
-    window.addEventListener('load', toggleBacktotop)
-    onscroll(document, toggleBacktotop)
+    on('click', '.back-to-top', scrollToTop)
   }
-
-
-
 
   /**
    * Header fixed top on scroll

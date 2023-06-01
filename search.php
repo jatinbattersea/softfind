@@ -1,16 +1,16 @@
 <?php
 /**
- * The template for displaying archive pages.
+ * The template for displaying search results.
  *
  * @link https://codex.wordpress.org/Template_Hierarchy
  *
  * @package WordPress
- * @subpackage ityug247
+ * @subpackage softfind
  */
 
 get_header();
 ?>
-    <section class="pt30 left-title-sec pb-5 all-page">
+    <section class="pt30 pb-5" id="email">
       <div class="container">
         <div>
             <?php
@@ -39,9 +39,9 @@ get_header();
                 // Previous/next page navigation.
                 the_posts_pagination(
                     array(
-                        'prev_text' => __( '&laquo;', 'ityug247' ),
-                        'next_text' => __( '&raquo;', 'ityug247' ),
-                        'before_page_number' => '<span class="meta-nav screen-reader-text">' . __( 'Page', 'ityug247' ) . ' </span>',
+                        'prev_text' => __( '&laquo;', 'softfind' ),
+                        'next_text' => __( '&raquo;', 'softfind' ),
+                        'before_page_number' => '<span class="meta-nav screen-reader-text">' . __( 'Page', 'softfind' ) . ' </span>',
                     )
                 );
 

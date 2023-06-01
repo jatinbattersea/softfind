@@ -1,3 +1,13 @@
+<?php
+/**
+ * The template for header
+ *
+ * @link https://developer.wordpress.org/themes/basics/template-hierarchy/#single-post
+ *
+ * @package softfind
+ */
+?>
+
   <!-- ======= Header ======= -->
   <header>
     <div class="container-fluid header" id="header">
@@ -39,27 +49,9 @@
                     'container_class' => 'navbar-collapse',
                     'container' => 'ul',
                     'items_wrap' => '<ul id="%1$s" class="%2$s">%3$s</ul>',
-                    'add_li_class' => 'nav-item'
                 )
             );
         ?>
-        <!-- <ul class="navbar-nav mx-auto mb-2 mb-lg-0" id='navList'>
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="general.html">General</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="general.html">Email</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="general.html">Finance</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="general.html">Business</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="general.html">Social Media</a>
-          </li>
-        </ul> -->
         <div class="search-box">
           <form role="search" method="get" action="<?php echo home_url('/'); ?>">
             <button class="btn-search">

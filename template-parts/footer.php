@@ -1,3 +1,13 @@
+<?php
+/**
+ * The template for footer
+ *
+ * @link https://developer.wordpress.org/themes/basics/template-hierarchy/#single-post
+ *
+ * @package softfind
+ */
+?>
+
 <button class="back-to-top d-flex align-items-center justify-content-center active">
   <i class="fa fa-arrow-up"></i>
 </button>
@@ -24,10 +34,10 @@
             <div class="footer-about">
               <div class="footer-title page-title d-flex justify-content-start align-items-top">
                 <div class="me-lg-3">About Company</div>
-                <span><img src="<?php echo get_template_directory_uri(); ?>/assets/img/page-title-1.png" alt=""></span>
-                <span><img src="<?php echo get_template_directory_uri(); ?>/assets/img/page-title-2.png" alt=""></span>
-                <span><img src="<?php echo get_template_directory_uri(); ?>/assets/img/page-title-3.png" alt=""></span>
-                <span><img src="<?php echo get_template_directory_uri(); ?>/assets/img/page-title-4.png" alt=""></span>
+                <span><img src="<?php echo get_template_directory_uri(); ?>/assets/images/page-title-1.png" alt=""></span>
+                <span><img src="<?php echo get_template_directory_uri(); ?>/assets/images/page-title-2.png" alt=""></span>
+                <span><img src="<?php echo get_template_directory_uri(); ?>/assets/images/page-title-3.png" alt=""></span>
+                <span><img src="<?php echo get_template_directory_uri(); ?>/assets/images/page-title-4.png" alt=""></span>
               </div>
               <p>
                 Your source for the serious news. This demo is crafted specifically to exhibit the use of the theme as a news site. Visit our main page for more demos.
@@ -36,12 +46,12 @@
                 <?php if (is_active_sidebar('social_icons')) { ?>
                   <?php dynamic_sidebar('social_icons'); ?>
                 <?php } ?>
-                <!-- <ul class="d-flex list-unstyled justify-content-start mb-0">
+                <ul class="d-flex list-unstyled justify-content-start mb-0">
                   <li><a href="#"><i class="fa-brands fa-facebook-f"></i></a></li>
                   <li><a href="#" class="ms-2"><i class="fa-brands fa-twitter"></i></a></li>
                   <li><a href="#" class="ms-2"><i class="fa-brands fa-instagram"></i></a></li>
                   <li><a href="#" class="ms-2"><i class="fa-brands fa-pinterest"></i></a></li>
-                </ul> -->
+                </ul>
               </div>
             </div>
           </div>
@@ -49,10 +59,10 @@
             <div class="footer-dropdown-insights">
               <div class="footer-title page-title d-flex justify-content-start align-items-top">
                 <div class="me-lg-3">Top Insights</div>
-                <span><img src="<?php echo get_template_directory_uri(); ?>/assets/img/page-title-1.png" alt=""></span>
-                <span><img src="<?php echo get_template_directory_uri(); ?>/assets/img/page-title-2.png" alt=""></span>
-                <span><img src="<?php echo get_template_directory_uri(); ?>/assets/img/page-title-3.png" alt=""></span>
-                <span><img src="<?php echo get_template_directory_uri(); ?>/assets/img/page-title-4.png" alt=""></span>
+                <span><img src="<?php echo get_template_directory_uri(); ?>/assets/images/page-title-1.png" alt=""></span>
+                <span><img src="<?php echo get_template_directory_uri(); ?>/assets/images/page-title-2.png" alt=""></span>
+                <span><img src="<?php echo get_template_directory_uri(); ?>/assets/images/page-title-3.png" alt=""></span>
+                <span><img src="<?php echo get_template_directory_uri(); ?>/assets/images/page-title-4.png" alt=""></span>
               </div>
               <div>
                 <select class="form-select">
@@ -75,10 +85,10 @@
             <div class="footer-post-insights">
               <div class="footer-title page-title d-flex justify-content-start align-items-top">
                 <div class="me-lg-3">Top Insights</div>
-                <span><img src="<?php echo get_template_directory_uri(); ?>/assets/img/page-title-1.png" alt=""></span>
-                <span><img src="<?php echo get_template_directory_uri(); ?>/assets/img/page-title-2.png" alt=""></span>
-                <span><img src="<?php echo get_template_directory_uri(); ?>/assets/img/page-title-3.png" alt=""></span>
-                <span><img src="<?php echo get_template_directory_uri(); ?>/assets/img/page-title-4.png" alt=""></span>
+                <span><img src="<?php echo get_template_directory_uri(); ?>/assets/images/page-title-1.png" alt=""></span>
+                <span><img src="<?php echo get_template_directory_uri(); ?>/assets/images/page-title-2.png" alt=""></span>
+                <span><img src="<?php echo get_template_directory_uri(); ?>/assets/images/page-title-3.png" alt=""></span>
+                <span><img src="<?php echo get_template_directory_uri(); ?>/assets/images/page-title-4.png" alt=""></span>
               </div>
               <div class="row">
                 <?php
@@ -103,7 +113,7 @@
                       <div class="content-details" style="width: 70%;">
                         <a href="<?php the_permalink(); ?>">
                           <div>
-                            <?php echo wp_trim_words(get_the_title(), 10); ?>
+                            <?php echo wp_trim_words(get_the_title(), 7); ?>
                           </div>
                         </a>
                         <div class="date">

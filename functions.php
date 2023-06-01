@@ -122,6 +122,14 @@
   add_filter('wpseo_next_rel_link', '__return_false');
   add_filter('wpseo_prev_rel_link', '__return_false');
 
+  /**
+   * Removes the title form the breadcrumb.
+   *
+   * @param array $data The WebPage's properties.
+   *
+   * @return array The modified WebPage properties.
+   */
+
   add_filter( 'wpseo_breadcrumb_links', 'exclude_post_title', 10, 1 );
 
   function exclude_post_title( $links ) {
@@ -156,18 +164,65 @@
                 'after_title' => null
             )
         );
-        register_sidebar(
-            array(
-                'id' => 'site_about',
-                'name' => __('site_about'),
-                'description' => __('site_about'),
-                'before_widget' => '<ul id="%1$s" class="list-unstyled %2$s">',
-                'after_widget' => "</ul>",
-                'before_title' => null,
-                'after_title' => null
-            )
-        );
     });
+
+    class Site_Social extends WP_Widget {
+
+        function __construct() {
+          parent::__construct(
+            'site_social',
+            __('Site Social', 'softfind'),
+            array( 'description' => __( 'Site Social', 'softfind' ), )
+          );
+        }
+
+        public function widget( $args, $instance ) {
+          echo $args['before_widget'];
+          if ( ! empty( $instance['title'] ) ) {
+            echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title'];
+          }
+          if ( ! empty( $instance['text'] ) ) {
+            echo '<p>' . $instance['text'] . '</p>';
+          }
+          echo $args['after_widget'];
+        }
+
+        public function form( $instance ) {
+          $title = ! empty( $instance['title'] ) ? $instance['title'] : __( 'New title', 'softfind' );
+          $text = ! empty( $instance['text'] ) ? $instance['text'] : '';
+          ?>
+          <p>
+          <label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label> 
+          <input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>">
+          </p>
+          <p>
+          <label for="<?php echo $this->get_field_id( 'text' ); ?>"><?php _e( 'Text:' ); ?></label> 
+          <textarea class="widefat" id="<?php echo $this->get_field_id( 'text' ); ?>" name="<?php echo $this->get_field_name( 'text' ); ?>"><?php echo esc_attr( $text ); ?></textarea>
+          </p>
+          <?php 
+        }
+
+        public function update( $new_instance, $old_instance ) {
+          $instance = array();
+          $instance['title'] = ( ! empty( $new_instance['title'] ) ) ? sanitize_text_field( $new_instance['title'] ) : '';
+          $instance['text'] = ( ! empty( $new_instance['text'] ) ) ? sanitize_textarea_field( $new_instance['text'] ) : '';
+          return $instance;
+        }
+  }
+
+  function my_register_widget() {
+    register_widget( 'Site_Social' );
+  }
+  add_action( 'widgets_init', 'my_register_widget' );
+
+  function site_social_shortcode( $atts ) {
+    ob_start();
+    the_widget( 'site_social', $atts );
+    $output = ob_get_contents();
+    ob_end_clean();
+    return $output;
+  }
+  add_shortcode( 'site_social', 'site_social_shortcode' );
 
   // Removes the filter that sanitizes HTML tags from the user bio field
   remove_filter('pre_user_description', 'wp_filter_kses');
@@ -198,6 +253,18 @@
     remove_action('admin_print_styles', 'print_emoji_styles');
   }
   add_action('init', 'remove_unwanted_scripts');
+
+  // Add custom classes to wp_nav_menu <li> and <a> elements
+  function custom_menu_classes($classes, $item, $args, $depth) {
+    $classes[] = 'nav-item';
+    $args->link_class = 'nav-link';
+    return $classes;
+  }
+  add_filter('nav_menu_css_class', 'custom_menu_classes', 10, 4);
+  add_filter('nav_menu_link_attributes', function ($atts, $item, $args, $depth) {
+    $atts['class'] = isset($args->link_class) ? $args->link_class : '';
+    return $atts;
+  }, 10, 4);
 
   /**
      * Additional Helper Functions
@@ -260,7 +327,7 @@
     $word_count = str_word_count( strip_tags( $content ) );
     $minutes = floor( $word_count / $words_per_minute );
     $seconds = floor( ( $word_count % $words_per_minute ) / ( $words_per_minute / 60 ) );
-    $est = $minutes . ' minute' . ( $minutes == 1 ? '' : 's' ) . ', ' . $seconds . ' second' . ( $seconds == 1 ? '' : 's' );
+    $est = $minutes . ' min' . ( $minutes == 1 ? '' : 's' ) . ', ' . $seconds . ' sec' . ( $seconds == 1 ? '' : 's' );
     return $est;
   }
 
@@ -366,61 +433,3 @@
   }
 
   add_filter('the_content', 'toc_add_to_content');
-
-  function get_author_block() {
-
-    // Get author ID
-    $authorID = get_the_author_meta('ID');
-
-    // Get author name
-    $author_name = get_the_author();
-
-    // Get author description
-    $author_content = get_the_author_meta('description');
-
-    // Get author description's first paragrapgh content
-    $start = strpos($author_content, '<p>');
-    $end = strpos($author_content, '</p>', $start);
-    $paragraph = substr($author_content, $start, $end - $start + 4);
-    $paragraph = html_entity_decode(strip_tags($paragraph));
-
-    // Get author's social media links
-    preg_match_all('/(https?:\/\/(?:www\.)?(?:facebook|fb)\.com\/\S+)|(https?:\/\/(?:www\.)?twitter\.com\/\S+)|(https?:\/\/(?:www\.)?linkedin\.com\/\S+)|(https?:\/\/(?:www\.)?instagram\.com\/\S+)/i', $author_content, $matches);
-
-    $output = '
-        <div class="written-by d-flex flex-column-reverse flex-md-row justify-content-between">
-            <div class="author-info1">
-              <div class="author-name">
-                Author: '.$author_name.'
-              </div>
-              <div class="author-bio">
-                '.$paragraph.'
-              </div>
-              <div class="author-btn">
-                <a href="'.get_author_posts_url($authorID).'" class=""> 
-                    Read More<i class="fa-solid fa-arrow-right-long ms-2"></i>
-                </a>
-              </div>
-            </div>
-            <div class="author-profile1 d-flex flex-md-column flex-row align-items-center">
-              <div class="author-img1">
-                <img src="'.get_avatar_url($authorID).'" class="img-fluid" alt="">
-              </div>
-              <div class="author-social-icon ms-md-0 ms-2">
-                <ul>';
-
-        // Create array of author's social media links
-        if (!empty($matches[0])) {
-            foreach ($matches[0] as $match) {
-                $output .= '<li>
-                        <a href="' . $match . '">
-                            <i class="fa-brands fa-' . (strpos($match, 'facebook.com') !== false ? 'facebook-f' : (strpos($match, 'twitter.com') !== false ? 'twitter' : (strpos($match, 'linkedin.com') !== false ? 'linkedin-in' : 'instagram'))) . '" aria-hidden="true"></i>
-                        </a>
-                    </li>';
-            }
-        }
-
-    $output .= '</ul></div></div></div>';
-
-    return $output;
-  }

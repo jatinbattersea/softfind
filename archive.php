@@ -10,7 +10,7 @@
 
 get_header();
 ?>
-    <section class="pt30 left-title-sec">
+    <section class="pt30" id="email">
       <div class="container">
         <div>
             <?php
